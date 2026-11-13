@@ -1,0 +1,29 @@
+project_structure
+
+# FreeCAD backups
+*.FCBak
+*.FCStd[0-9]*
+
+# KiCad temporary & backup files
+*-backups/
+*.lck
+*.kicad_prl
+fp-info-cache
+
+# Firmware & C++ builds
+.pio/
+build/
+cmake-build-*/
+
+# Python & Simulation
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Linux, macOS & IDEs
+*~
+.directory
+.DS_Store
+.vscode/
+.idea/
