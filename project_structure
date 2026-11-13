@@ -1,0 +1,64 @@
+robot-project/
+├── bom/
+│   └── master_bom.csv                       # Unified BOM (Custom, Fab, & COTS parts)
+├── mcad/                                    # Mechanical CAD
+│   ├── cots/                                # Commercial Off-The-Shelf (purchased hardware)
+│   │   ├── cots_pulley_gt2_20t_5mm.FCStd    # Self-modeled parametric FreeCAD file
+│   │   ├── cots_pulley_gt2_20t_5mm.step     # Neutral STEP linked into assemblies
+│   │   ├── cots_bearing_608zz.step
+│   │   └── cots_motor_nema17_48mm.step
+│   ├── source/                              # Native parametric custom parts & assemblies
+│   │   ├── robot_master_assy_revA.FCStd     # Top-level robot assembly
+│   │   ├── x_pulley_assy_revA.FCStd         # Sub-assembly (core + shaft + COTS pulley)
+│   │   ├── x_pulley_core_revA.FCStd         # Custom 3D-printed part
+│   │   └── x_pulley_shaft_5x50mm_revA.FCStd # Custom machined/cut shaft
+│   ├── step/                                # Neutral STEP exports for cross-CAD & sim
+│   │   ├── robot_master_assy_revA.step
+│   │   └── x_pulley_assy_revA.step
+│   ├── additive/                            # Ready-to-slice 3D print meshes ONLY
+│   │   ├── x_pulley_core_revA.3mf
+│   │   └── print_specifications.md          # Material (PA12-CF/PETG-CF), walls, infill
+│   └── fab/                                 # 2D drawings/DXFs for machined or cut parts
+│       └── x_pulley_shaft_5x50mm_revA.pdf
+├── ecad/                                    # Electrical CAD
+│   ├── pcb/                                 # KiCad project files
+│   │   ├── main_controller_revA.kicad_pro
+│   │   ├── main_controller_revA.kicad_sch
+│   │   ├── main_controller_revA.kicad_pcb
+│   │   └── gerbers/                         # Manufacturing output + pick-and-place BOM
+│   └── harness/                             # Wiring harnesses & system interconnects
+│       ├── harness_power_dist_revA.yml      # WireViz PSU, E-stop, & 24V/5V distribution
+│       ├── harness_x_axis_revA.yml          # WireViz motor & limit switch pinouts
+│       └── pinout_table.md                  # Controller terminal block reference
+├── firmware/                                # Real-time deterministic MCU code
+│   ├── include/
+│   │   ├── machine_config.h                 # Steps/mm, gear ratios, max accel/vel
+│   │   └── pin_map.h                        # MCU hardware pin assignments
+│   ├── src/
+│   │   ├── main.cpp                         # Real-time control loop & hardware E-stop
+│   │   ├── motion_driver.cpp                # Stepper/FOC trajectory execution
+│   │   └── fieldbus_can.cpp                 # CAN-bus / UART protocol handler
+│   └── platformio.ini                       # Target MCU toolchain & dependencies
+├── software/                                # High-level robotics & simulation stack
+│   ├── control/
+│   │   ├── kinematics.py                    # Forward & inverse kinematics
+│   │   ├── robot_node.py                    # ROS 2 / Python host controller
+│   │   └── requirements.txt
+│   └── urdf/
+│       ├── robot.urdf.xacro                 # Kinematic & dynamic robot description
+│       └── meshes/                          # Decimated collision meshes for physics sim
+│           └── x_pulley_core_col.stl
+├── docs/                                    # Engineering & manufacturing documentation
+│   ├── assembly/
+│   │   └── wi_01_x_axis_assembly.md         # Work Instructions (WI) & fastener torques
+│   ├── commissioning/
+│   │   ├── safety_estop_architecture.md     # Safety circuit & power-up verification
+│   │   └── calibration_procedure.md         # Homing, belt tensioning, & backlash checks
+│   └── media/
+│       ├── robot_hero_render.png
+│       └── harness_x_axis_revA.svg
+├── .gitattributes                           # Git LFS rules for *.FCStd, *.step, *.3mf, *.stl
+├── .gitignore                               # Ignores *.FCBak, *.FCStd[0-9]*, .pio/, build/
+├── LICENSE-HARDWARE                         # CERN-OHL-P v2 (or CERN-OHL-S v2)
+├── LICENSE-SOFTWARE                         # Apache 2.0 (or MIT)
+└── README.md                                # System specs, hero image, & quick-start guide
